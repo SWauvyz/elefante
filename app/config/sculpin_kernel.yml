@@ -1,0 +1,51 @@
+sculpin_content_types:
+  posts:
+    singular_name: post
+    type: path
+    path: _posts
+    permalink: blog/:year/:month/:slug_title
+    taxonomies:
+      - tags
+      - categories
+  pages:
+    singular_name: page
+    permalink: :basename
+    type: path
+    path: _pages
+  authors:
+    singular_name: author
+    permalink: authors/:basename
+    type: path
+    path: _authors
+  psr:
+    permalink: psr/:basename
+    type: path
+    path: _psr
+  per:
+    permalink: per/:basename
+    type: path
+    path: _per
+  bylaws:
+    singular_name: bylaw
+    permalink: bylaws/:slug_title
+    type: path
+    path: _bylaws
+
+sculpin:
+  ignore: ["**/*.scss"]
+
+services:
+  fig.website.link_processor_extension:
+    class: Fig\Website\TwigLinkProcessor
+    tags:
+      - { name: twig.extension }
+
+  aptoma.twig.markdown_extension:
+    class: Aptoma\Twig\Extension\MarkdownExtension
+    arguments:
+      $markdownEngine: '@Aptoma\Twig\Extension\MarkdownEngineInterface'
+    tags:
+      - { name: twig.extension }
+
+  Aptoma\Twig\Extension\MarkdownEngineInterface:
+    factory: ['Fig\Website\CommonMarkEngineFactory', 'create']
